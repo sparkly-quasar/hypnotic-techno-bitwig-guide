@@ -1,0 +1,681 @@
+<title>Hypnotic Techno Navigator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Archivo:wdth,wght@62..125,500..800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: device-panel sidebar (parts as tracks) + one part at a time, subsections fold like device chains */
+:root {
+  --bg: #eef0f3;
+  --panel: #f8f9fb;
+  --panel-2: #e3e6eb;
+  --line: #cfd4dc;
+  --fg: #1b2029;
+  --muted: #5b6474;
+  --accent: #c2550f;
+  --accent-soft: #f6e2d3;
+  --mod: #2f6fb3;
+  --mod-soft: #dce8f5;
+  --check: #2c7a4b;
+  --check-soft: #dcefe3;
+  --mark: #ffe08a;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --side-w: 300px;
+  --top-h: 56px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181d; --panel: #1c2027; --panel-2: #252a33; --line: #343b47;
+    --fg: #e6e9ee; --muted: #9aa3b2; --accent: #f08a3c; --accent-soft: #3a281b;
+    --mod: #6fa8e8; --mod-soft: #1d2b3c; --check: #5fc28a; --check-soft: #1a3226; --mark: #7a5f12;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181d; --panel: #1c2027; --panel-2: #252a33; --line: #343b47;
+  --fg: #e6e9ee; --muted: #9aa3b2; --accent: #f08a3c; --accent-soft: #3a281b;
+  --mod: #6fa8e8; --mod-soft: #1d2b3c; --check: #5fc28a; --check-soft: #1a3226; --mark: #7a5f12;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--panel); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+button { font: inherit; color: inherit; }
+
+/* Top bar */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  display: flex; align-items: center; gap: 12px;
+  min-height: var(--top-h);
+  padding-block: 8px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--panel); border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); min-width: 0; }
+.brand b { font-family: var(--font-display); font-stretch: 75%; font-weight: 800; font-size: 19px; letter-spacing: .02em; text-transform: uppercase; white-space: nowrap; }
+.brand small { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.iconbtn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 38px; min-width: 38px; padding: 0 10px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--panel-2); cursor: pointer; font-size: 14px;
+}
+.iconbtn:hover { border-color: var(--accent); }
+.iconbtn svg { width: 18px; height: 18px; }
+#menuBtn { display: none; }
+.search { position: relative; flex: 1; max-width: 520px; margin-left: auto; }
+.search input {
+  width: 100%; height: 38px; padding: 0 12px 0 36px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--fg); font: inherit; font-size: 15px;
+}
+.search svg { position: absolute; left: 10px; top: 10px; width: 18px; height: 18px; color: var(--muted); }
+.search kbd { position: absolute; right: 8px; top: 8px; }
+kbd { font-family: var(--font-mono); font-size: 12px; padding: 1px 6px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; color: var(--muted); background: var(--panel); }
+.results {
+  position: absolute; top: 44px; left: 0; right: 0; max-height: min(70vh, 560px); overflow: auto;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.25);
+}
+.results button { display: block; width: 100%; text-align: left; padding: 10px 14px; border: 0; border-bottom: 1px solid var(--line); background: none; cursor: pointer; }
+.results button:hover, .results button.sel { background: var(--accent-soft); }
+.results .where { font-family: var(--font-mono); font-size: 12px; color: var(--accent); }
+.results .snip { font-size: 14px; color: var(--muted); display: block; }
+.results .none { padding: 14px; color: var(--muted); font-size: 14px; }
+mark { background: var(--mark); color: inherit; border-radius: 2px; }
+
+/* Step strip: one cell per Part 0-16 */
+.steps { display: flex; gap: 3px; padding-block: 0 8px; }
+.steps button {
+  flex: 1; height: 14px; padding: 0; border-radius: 2px; border: 1px solid var(--line);
+  background: var(--panel-2); cursor: pointer; position: relative;
+}
+.steps button.done { background: var(--check); border-color: var(--check); }
+.steps button.here { outline: 2px solid var(--accent); outline-offset: 1px; }
+.steps button:nth-child(4n+1):not(.done) { background: var(--line); }
+
+/* Shell */
+.shell { display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); min-height: calc(100% - var(--top-h)); }
+.side {
+  position: sticky; top: calc(var(--top-h) + env(safe-area-inset-top, 0px)); align-self: start;
+  height: calc(100vh - var(--top-h) - env(safe-area-inset-top, 0px)); overflow-y: auto;
+  border-right: 1px solid var(--line); background: var(--panel);
+  padding-block: 14px 40px;
+  padding-left: max(14px, env(safe-area-inset-left, 0px)); padding-right: 14px;
+}
+.side h2 { font-family: var(--font-display); font-stretch: 80%; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 18px 6px 6px; }
+.side h2:first-of-type { margin-top: 4px; }
+.nav-part { display: flex; align-items: center; gap: 8px; width: 100%; padding: 6px 8px; border: 0; border-radius: 5px; background: none; text-align: left; cursor: pointer; font-size: 15px; line-height: 1.3; }
+.nav-part:hover { background: var(--panel-2); }
+.nav-part.active { background: var(--accent-soft); }
+.nav-part .num { flex: none; width: 26px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-align: right; }
+.nav-part .led { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.nav-part .led.done { background: var(--check); }
+.nav-part .lbl { flex: 1; min-width: 0; }
+.nav-subs { margin: 2px 0 6px 42px; padding: 0; list-style: none; border-left: 1px solid var(--line); }
+.nav-subs button { display: block; width: 100%; text-align: left; padding: 3px 10px; border: 0; background: none; cursor: pointer; font-size: 13.5px; line-height: 1.35; color: var(--muted); }
+.nav-subs button:hover { color: var(--fg); }
+.nav-subs button.active { color: var(--accent); font-weight: 700; }
+
+/* Main */
+main {
+  min-width: 0;
+  padding-block: 28px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.page { max-width: 820px; margin: 0 auto; }
+.eyebrow { font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: .04em; }
+h1 { font-family: var(--font-display); font-stretch: 78%; font-weight: 800; font-size: clamp(30px, 5vw, 46px); line-height: 1.05; margin: 4px 0 12px; text-wrap: balance; letter-spacing: -.005em; }
+.page-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-bottom: 18px; }
+.chip { white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 3px 10px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel); color: var(--muted); text-decoration: none; cursor: pointer; }
+.chip.stagechip { color: var(--mod); border-color: var(--mod); background: var(--mod-soft); }
+.chip.done { color: var(--check); border-color: var(--check); background: var(--check-soft); }
+.chip:hover { border-color: var(--accent); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0 16px; }
+.toolbar .spacer { flex: 1; }
+.jump { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 18px; }
+.jump button { font-size: 13.5px; padding: 4px 10px; border-radius: 5px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; line-height: 1.3; text-align: left; }
+.jump button:hover { border-color: var(--accent); color: var(--accent); }
+
+.prose { max-width: 70ch; }
+.prose p { margin: 0 0 14px; }
+.prose ol { margin: 0 0 16px; padding-left: 28px; }
+.prose ol li { margin-bottom: 8px; padding-left: 4px; }
+.prose ol li::marker { font-family: var(--font-mono); font-weight: 600; color: var(--accent); font-size: 14px; }
+.prose ul.sub { margin: -4px 0 16px; padding-left: 22px; }
+.prose ul.sub li { margin-bottom: 6px; }
+.prose ul.sub li::marker { color: var(--muted); }
+.prose h4 { font-family: var(--font-display); font-stretch: 90%; font-size: 18px; margin: 22px 0 8px; }
+.prose code { font-family: var(--font-mono); font-size: .86em; background: var(--panel-2); padding: 1px 5px; border-radius: 4px; }
+.prose pre { font-family: var(--font-mono); font-size: 13px; line-height: 1.5; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; overflow-x: auto; margin: 0 0 16px; }
+.prose a.xref { color: var(--mod); text-decoration: none; border-bottom: 1px dotted var(--mod); font-weight: 700; }
+.prose a.xref:hover { background: var(--mod-soft); }
+.tablewrap { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--font-display); font-stretch: 85%; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--panel); }
+tr:last-child td { border-bottom: 0; }
+.checkpoint { background: var(--check-soft); border-left: 3px solid var(--check); padding: 8px 12px; border-radius: 0 6px 6px 0; }
+li.checkpoint { list-style-position: inside; margin-left: -28px; padding-left: 12px; }
+.ck-tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--check); margin-right: 6px; }
+
+/* Subsections as foldable devices */
+details.sub { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); margin: 0 0 10px; scroll-margin-top: calc(var(--top-h) + 16px + env(safe-area-inset-top, 0px)); }
+details.sub > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 12px 14px; font-family: var(--font-display); font-stretch: 88%; font-weight: 700; font-size: 18px; line-height: 1.25; }
+details.sub > summary::-webkit-details-marker { display: none; }
+details.sub > summary .caret { flex: none; width: 20px; height: 20px; color: var(--muted); transition: transform .15s; }
+details.sub[open] > summary .caret { transform: rotate(90deg); color: var(--accent); }
+details.sub > summary .t { flex: 1; min-width: 0; }
+details.sub > summary .count { flex: none; font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--muted); }
+details.sub > .body { max-width: none; padding: 2px 16px 8px 44px; border-top: 1px solid var(--line); padding-top: 14px; background: var(--bg); border-radius: 0 0 8px 8px; }
+@media (prefers-reduced-motion: reduce) { details.sub > summary .caret { transition: none; } }
+
+.filter { width: 100%; max-width: 420px; height: 38px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); font: inherit; font-size: 15px; }
+.filter-count { font-size: 13px; color: var(--muted); }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 36px; }
+.pager button { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); cursor: pointer; text-align: left; min-width: 0; }
+.pager button:hover { border-color: var(--accent); }
+.pager button.next { text-align: right; grid-column: 2; }
+.pager small { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.pager span { font-weight: 700; overflow-wrap: anywhere; }
+
+/* Home */
+.lede { font-size: 18px; color: var(--muted); max-width: 64ch; margin: 0 0 20px; }
+.status { display: grid; gap: 6px; padding: 14px 16px; border-radius: 8px; background: var(--accent-soft); border: 1px solid var(--accent); margin-bottom: 26px; max-width: 70ch; }
+.status p { margin: 0; }
+.home-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 30px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: #fff; font-weight: 700; cursor: pointer; text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--accent); }
+h2.section { font-family: var(--font-display); font-stretch: 78%; font-size: 26px; font-weight: 800; margin: 8px 0 4px; }
+.section-note { color: var(--muted); margin: 0 0 14px; font-size: 15px; }
+.path { display: grid; gap: 10px; margin-bottom: 34px; }
+.stage { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 14px; align-items: start; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.stage .n { font-family: var(--font-display); font-stretch: 70%; font-weight: 800; font-size: 40px; line-height: .9; color: var(--accent); }
+.stage h3 { margin: 0 0 4px; font-family: var(--font-display); font-stretch: 88%; font-size: 19px; }
+.stage .do { font-size: 15.5px; }
+.stage .time { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); text-align: right; white-space: nowrap; }
+.stage .meter { display: flex; gap: 3px; margin-top: 8px; }
+.stage .meter i { width: 18px; height: 6px; border-radius: 2px; background: var(--line); }
+.stage .meter i.on { background: var(--check); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; margin-bottom: 30px; }
+.card { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); cursor: pointer; text-align: left; }
+.card:hover { border-color: var(--accent); }
+.card .num { font-family: var(--font-mono); font-size: 12px; color: var(--accent); display: flex; justify-content: space-between; }
+.card .num .led { width: 8px; height: 8px; border-radius: 50%; background: var(--line); align-self: center; }
+.card .num .led.done { background: var(--check); }
+.card b { font-size: 16px; line-height: 1.3; }
+.card small { color: var(--muted); font-size: 13px; }
+.keys { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); }
+
+/* Glossary drawer */
+.drawer { position: fixed; z-index: 40; top: 0; right: 0; bottom: 0; width: min(440px, 100%); background: var(--panel); border-left: 1px solid var(--line); box-shadow: -12px 0 32px rgba(0,0,0,.2); display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px); }
+.drawer header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.drawer header b { font-family: var(--font-display); font-stretch: 80%; font-size: 20px; flex: 1; }
+.drawer .dbody { overflow-y: auto; padding: 12px 16px 30px; }
+.drawer .gl-item { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.drawer .gl-cat { font-family: var(--font-display); font-stretch: 85%; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 14px 0 2px; }
+.scrim { position: fixed; inset: 0; z-index: 35; background: rgba(0,0,0,.35); }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  #menuBtn { display: inline-flex; }
+  .side { position: fixed; z-index: 38; top: 0; left: 0; bottom: 0; height: auto; width: min(320px, 88%); transform: translateX(-105%); transition: transform .2s; padding-top: calc(14px + env(safe-area-inset-top, 0px)); }
+  .side.open { transform: none; box-shadow: 12px 0 32px rgba(0,0,0,.25); }
+  .brand small, .search kbd, .hide-sm { display: none; }
+  details.sub > .body { padding-left: 16px; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .stage { grid-template-columns: 40px minmax(0, 1fr); }
+  .stage .time { grid-column: 2; text-align: left; }
+  .stage .n { font-size: 32px; }
+  .brand { display: none; }
+  .pager { grid-template-columns: 1fr; }
+  .pager button.next { grid-column: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .side { transition: none; } }
+</style>
+
+<header class="topbar">
+  <button class="iconbtn" id="menuBtn" aria-label="Open contents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="#home" id="brand"><b>Hypnotic Techno</b><small>Bitwig build guide</small></a>
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Search the guide (e.g. sidechain, Treemonster, 14.4)" autocomplete="off" aria-label="Search the guide">
+    <kbd>/</kbd>
+    <div class="results" id="results" hidden></div>
+  </div>
+  <button class="iconbtn" id="glossBtn" title="Glossary lookup (g)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg><span class="hide-sm">Glossary</span></button>
+  <button class="iconbtn" id="themeBtn" aria-label="Switch light or dark theme" title="Theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+</header>
+
+<div class="shell">
+  <nav class="side" id="side" aria-label="Contents"></nav>
+  <main id="main"><div class="page" id="page"></div></main>
+</div>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Glossary">
+  <header><b>Glossary</b><button class="iconbtn" id="drawerClose" aria-label="Close glossary">Close</button></header>
+  <div style="padding: 12px 16px 0"><input class="filter" id="glq" type="search" placeholder="Look up a term" autocomplete="off" aria-label="Look up a term"></div>
+  <div class="dbody" id="glList"></div>
+</aside>
+
+<script type="application/json" id="guide-data">/*CONTENT*/</script>
+<script>
+(function () {
+  "use strict";
+  const DATA = JSON.parse(document.getElementById("guide-data").textContent);
+  const $ = (s, el = document) => el.querySelector(s);
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("htg:" + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem("htg:" + k, JSON.stringify(v)); } catch (e) {} }
+  };
+
+  // ---------- Model ----------
+  const STAGE_OF = { 0: 1, 4: 1, 1: 2, 2: 2, 3: 2, 16: 2, 5: 3, 6: 3, 10: 3, 7: 4, 8: 4, 12: 4, 13: 4, 14: 4, 15: 4, 9: 5, 11: 5 };
+  const STAGE_NAMES = { 1: "Learn the moves", 2: "Build the core loop", 3: "Fill out the template", 4: "Make a track", 5: "Release" };
+  const REF_IDS = { "how to use this guide": "how-to-use", "glossary": "glossary", "troubleshooting": "troubleshooting", "sources": "sources", "change log": "change-log" };
+
+  const parts = DATA.parts.map((p, i) => {
+    const m = p.title.match(/^Part (\d+):\s*(.*)$/);
+    const num = m ? +m[1] : null;
+    let id = m ? "part-" + num : (REF_IDS[p.title.toLowerCase()] || (/^labels/i.test(p.title) ? "uncertain-labels" : "sec-" + i));
+    return {
+      idx: i, id, num, title: m ? m[2] : p.title, full: p.title, blocks: p.blocks,
+      ref: num == null,
+      subs: p.subs.map((s, j) => {
+        const sm = s.title.match(/^(\d+\.\d+)\s+(.*)$/);
+        return { id: id + "-s" + (j + 1), code: sm ? sm[1] : null, title: sm ? sm[2] : s.title, full: s.title, blocks: s.blocks };
+      })
+    };
+  });
+  const byId = Object.fromEntries(parts.map(p => [p.id, p]));
+  const subById = {}; const subByCode = {};
+  parts.forEach(p => p.subs.forEach(s => { subById[s.id] = { part: p, sub: s }; if (s.code) subByCode[s.code] = s.id; }));
+  const partByNum = Object.fromEntries(parts.filter(p => p.num != null).map(p => [p.num, p]));
+  const guideParts = parts.filter(p => !p.ref).sort((a, b) => a.num - b.num);
+  const refParts = parts.filter(p => p.ref && p.id !== "how-to-use");
+  const order = guideParts.concat(refParts);
+
+  let done = new Set(store.get("done", []));
+  const saveDone = () => store.set("done", [...done]);
+
+  // ---------- Rendering helpers ----------
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const strip = h => h.replace(/<[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+
+  // Turn "Part 14.4", "12.13", "Troubleshooting" into in-guide links, touching text only (never inside tags).
+  function linkify(html) {
+    return html.split(/(<[^>]+>)/).map(seg => {
+      if (seg.startsWith("<")) return seg;
+      seg = seg.replace(/\bPart (\d{1,2})(?:\.(\d{1,2}))?\b/g, (m, a, b) => {
+        if (b && subByCode[a + "." + b]) return `<a class="xref" href="#${subByCode[a + "." + b]}">${m}</a>`;
+        if (partByNum[a] && !b) return `<a class="xref" href="#${partByNum[a].id}">${m}</a>`;
+        return m;
+      });
+      seg = seg.replace(/(^|[^\d.\-+\w>])(1[2-6]\.\d{1,2})(?![\d.]|\s?(?:dB|Hz|kHz|ms|%|BPM|LUFS|x\b))/g, (m, pre, code) =>
+        subByCode[code] ? `${pre}<a class="xref" href="#${subByCode[code]}">${code}</a>` : m);
+      seg = seg.replace(/\b(Troubleshooting|Glossary)\b/g, (m) => `<a class="xref" href="#${m.toLowerCase()}">${m}</a>`);
+      return seg;
+    }).join("")
+      // a link nested inside another link (e.g. "Part 14.4" then "14.4") is undone here
+      .replace(/(<a class="xref"[^>]*>[^<]*)<a class="xref"[^>]*>([^<]*)<\/a>/g, "$1$2");
+  }
+  const CK = /You should hear|you should hear/;
+  function ck(html) { return CK.test(html) ? ' class="checkpoint"' : ""; }
+  function ckTag(html) { return CK.test(html) ? '<span class="ck-tag">Checkpoint</span>' : ""; }
+
+  function renderBlocks(blocks) {
+    let out = ""; let i = 0;
+    while (i < blocks.length) {
+      const b = blocks[i];
+      if (b.type === "p" && b.indent) {
+        let items = "";
+        while (i < blocks.length && blocks[i].type === "p" && blocks[i].indent) {
+          const h = blocks[i].html; items += `<li${ck(h)}>${ckTag(h)}${linkify(h)}</li>`; i++;
+        }
+        out += `<ul class="sub">${items}</ul>`; continue;
+      }
+      if (b.type === "p") out += `<p${ck(b.html)}>${ckTag(b.html)}${linkify(b.html)}</p>`;
+      else if (b.type === "h4") out += `<h4>${esc(b.text)}</h4>`;
+      else if (b.type === "ol") out += `<ol start="${b.start}">` + b.items.map(h => `<li${ck(h)}>${ckTag(h)}${linkify(h)}</li>`).join("") + `</ol>`;
+      else if (b.type === "pre") out += `<pre>${esc(b.text)}</pre>`;
+      else if (b.type === "table") {
+        const rows = b.rows.filter(r => r.some(c => strip(c).trim())).map((r, ri) => {
+          const tag = (b.header && ri === 0) ? "th" : "td";
+          return "<tr>" + r.map(c => `<${tag}>${linkify(c)}</${tag}>`).join("") + "</tr>";
+        });
+        out += `<div class="tablewrap"><table>${b.header ? "<thead>" + rows.shift() + "</thead>" : ""}<tbody>${rows.join("")}</tbody></table></div>`;
+      }
+      i++;
+    }
+    return out;
+  }
+
+  const caret = '<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg>';
+  const label = p => p.num != null ? `Part ${p.num}` : "Reference";
+
+  // ---------- Sidebar ----------
+  function renderSide(activePart, activeSub) {
+    const item = p => {
+      const on = activePart && p.id === activePart.id;
+      let h = `<button class="nav-part${on ? " active" : ""}" data-go="${p.id}"><span class="num">${p.num != null ? p.num : ""}</span><span class="led${done.has(p.id) ? " done" : ""}"></span><span class="lbl">${esc(p.title)}</span></button>`;
+      if (on && p.subs.length) {
+        h += `<ul class="nav-subs">` + p.subs.map(s => `<li><button data-go="${s.id}"${activeSub === s.id ? ' class="active"' : ""}>${s.code ? `<span style="font-family:var(--font-mono);font-size:12px">${s.code}</span> ` : ""}${esc(s.title)}</button></li>`).join("") + `</ul>`;
+      }
+      return h;
+    };
+    $("#side").innerHTML =
+      `<button class="nav-part${!activePart ? " active" : ""}" data-go="home"><span class="num"></span><span class="led"></span><span class="lbl">Start here: learning path</span></button>` +
+      `<h2>The guide</h2>` + guideParts.map(item).join("") +
+      `<h2>Use any time</h2>` + refParts.map(item).join("");
+  }
+
+  function renderSteps(activePart) {
+    let el = $("#steps");
+    if (!el) { el = document.createElement("div"); el.id = "steps"; el.className = "steps"; }
+    el.innerHTML = guideParts.map(p => `<button data-go="${p.id}" title="Part ${p.num}: ${esc(p.title)}${done.has(p.id) ? " (done)" : ""}" aria-label="Part ${p.num}" class="${done.has(p.id) ? "done" : ""}${activePart && activePart.id === p.id ? " here" : ""}"></button>`).join("");
+    return el;
+  }
+
+  // ---------- Views ----------
+  function homeView() {
+    const intro = DATA.intro;
+    const lede = intro.find(b => b.type === "p");
+    const status = intro.filter(b => b.type === "p" && /Where things stand|Checkpoints|Use any time/.test(b.html));
+    const howTo = byId["how-to-use"];
+    const table = howTo && howTo.blocks.find(b => b.type === "table");
+    const last = store.get("last", null);
+    const lastP = last && (byId[last] || (subById[last] && subById[last].part));
+    let stages = "";
+    if (table) {
+      stages = table.rows.slice(table.header ? 1 : 0).map(r => {
+        const n = (strip(r[0]).match(/^(\d+)/) || [])[1];
+        const name = strip(r[0]).replace(/^\d+\.\s*/, "");
+        const inStage = guideParts.filter(p => String(STAGE_OF[p.num]) === n);
+        const meter = inStage.map(p => `<i class="${done.has(p.id) ? "on" : ""}" title="Part ${p.num}"></i>`).join("");
+        return `<div class="stage"><div class="n">${n}</div><div><h3>${esc(name)}</h3><div class="do prose">${linkify(r[1])}</div><div class="meter">${meter}</div></div><div class="time">${esc(strip(r[2]))}</div></div>`;
+      }).join("");
+    }
+    const cards = guideParts.map(p => `<button class="card" data-go="${p.id}"><span class="num"><span>PART ${p.num}${STAGE_OF[p.num] ? " · STAGE " + STAGE_OF[p.num] : ""}</span><span class="led${done.has(p.id) ? " done" : ""}"></span></span><b>${esc(p.title)}</b><small>${p.subs.length ? p.subs.length + " sections" : "Single page"}</small></button>`).join("");
+    const refCards = refParts.map(p => `<button class="card" data-go="${p.id}"><span class="num"><span>REFERENCE</span></span><b>${esc(p.title)}</b><small>${refBlurb(p)}</small></button>`).join("");
+    const page = $("#page");
+    page.innerHTML = `
+      <div class="eyebrow">BITWIG · 132 BPM · ONE MINOR KEY</div>
+      <h1>${esc(DATA.title)}</h1>
+      <p class="lede">${lede ? linkify(lede.html) : ""}</p>
+      <div class="status prose">${status.map(b => `<p>${linkify(b.html)}</p>`).join("")}</div>
+      <div class="home-actions">
+        ${lastP ? `<button class="btn" data-go="${last}">Continue: ${esc(label(lastP))} · ${esc(lastP.title)}</button>` : `<button class="btn" data-go="part-0">Start with Part 0</button>`}
+        <button class="btn ghost" data-go="troubleshooting">Something's wrong: Troubleshooting</button>
+      </div>
+      <h2 class="section">Learning path</h2>
+      <p class="section-note">Parts are numbered by where they sit in the template, not the order to learn them. Follow these stages instead. The bars fill as you mark parts done.</p>
+      <div class="path">${stages}</div>
+      <h2 class="section">All parts</h2>
+      <div class="grid">${cards}</div>
+      <h2 class="section">Use any time</h2>
+      <div class="grid">${refCards}</div>
+      <h2 class="section">Keys</h2>
+      <div class="keys"><span><kbd>/</kbd> search</span><span><kbd>g</kbd> glossary</span><span><kbd>←</kbd> <kbd>→</kbd> previous / next part</span><span><kbd>e</kbd> expand or collapse all sections</span><span><kbd>d</kbd> mark part done</span><span><kbd>h</kbd> home</span></div>`;
+    page.prepend(renderSteps(null));
+    renderSide(null, null);
+    document.title = "Hypnotic Techno Navigator";
+  }
+  function refBlurb(p) {
+    return { "glossary": "Plain-language definitions, filterable", "troubleshooting": "Things that went wrong, and why", "uncertain-labels": "Bitwig 6 labels to double-check", "sources": "Tutorials, reels and manuals", "change-log": "What changed in each revision" }[p.id] || "";
+  }
+
+  let currentPart = null;
+  function partView(p, subId, highlight) {
+    currentPart = p;
+    const pos = order.indexOf(p);
+    const prev = order[pos - 1], next = order[pos + 1];
+    const stage = STAGE_OF[p.num];
+    const filterable = ["glossary", "troubleshooting", "uncertain-labels", "sources", "change-log"].includes(p.id);
+    const openAll = store.get("openAll", false);
+    let subs = "";
+    if (p.subs.length) {
+      subs = p.subs.map(s => {
+        const n = s.blocks.length;
+        const open = openAll || s.id === subId;
+        return `<details class="sub" id="${s.id}"${open ? " open" : ""}><summary>${caret}<span class="t">${s.code ? `<span class="eyebrow" style="margin-right:8px">${s.code}</span>` : ""}${esc(s.title)}</span>${s.blocks.some(b => CK.test(b.html || (b.items || []).join(""))) ? '<span class="chip done" style="padding:1px 8px;font-size:11px">checkpoint</span>' : ""}<span class="count">${n} ${n === 1 ? "block" : "blocks"}</span></summary><div class="body prose">${renderBlocks(s.blocks)}</div></details>`;
+      }).join("");
+    }
+    const page = $("#page");
+    page.innerHTML = `
+      <div class="eyebrow">${p.num != null ? "PART " + p.num : "REFERENCE"}</div>
+      <h1>${esc(p.title)}</h1>
+      <div class="page-head">
+        ${stage ? `<a class="chip stagechip" href="#home" title="Back to the learning path">Stage ${stage}: ${STAGE_NAMES[stage]}</a>` : ""}
+        ${p.num != null ? `<button class="chip${done.has(p.id) ? " done" : ""}" id="doneBtn" aria-pressed="${done.has(p.id)}">${done.has(p.id) ? "✓ Done" : "Mark part done"}</button>` : ""}
+      </div>
+      ${filterable ? `<div class="toolbar"><input class="filter" id="secFilter" type="search" placeholder="Filter ${esc(p.title.toLowerCase())}" autocomplete="off" aria-label="Filter this section"><span class="filter-count" id="filterCount"></span></div>` : ""}
+      <div class="prose" id="partBody">${renderBlocks(p.blocks)}</div>
+      ${p.subs.length ? `
+        <div class="toolbar"><b style="font-family:var(--font-display);font-stretch:85%">${p.subs.length} sections</b><span class="spacer"></span><button class="chip" id="toggleAll">${openAll ? "Collapse all" : "Expand all"}</button></div>
+        <div class="jump">${p.subs.map(s => `<button data-go="${s.id}">${s.code ? s.code + " " : ""}${esc(s.title)}</button>`).join("")}</div>
+        ${subs}` : ""}
+      <div class="pager">
+        ${prev ? `<button class="prev" data-go="${prev.id}"><small>← ${esc(label(prev))}</small><span>${esc(prev.title)}</span></button>` : ""}
+        ${next ? `<button class="next" data-go="${next.id}"><small>${esc(label(next))} →</small><span>${esc(next.title)}</span></button>` : ""}
+      </div>`;
+    page.prepend(renderSteps(p));
+    renderSide(p, subId);
+    document.title = (p.num != null ? `Part ${p.num}: ` : "") + p.title + " · Hypnotic Techno Navigator";
+    if (filterable) setupFilter();
+    if (highlight) markText(page, highlight);
+    requestAnimationFrame(() => {
+      const target = subId ? document.getElementById(subId) : (highlight ? page.querySelector("mark") : null);
+      if (target) {
+        const t = target.closest("details") || target;
+        t.scrollIntoView({ block: "start" });
+        if (target.tagName === "MARK") target.scrollIntoView({ block: "center" });
+      } else window.scrollTo(0, 0);
+    });
+    store.set("last", subId || p.id);
+  }
+
+  function setupFilter() {
+    const input = $("#secFilter"), body = $("#partBody"), count = $("#filterCount");
+    const items = [...body.querySelectorAll(":scope > p, :scope > ul.sub > li, :scope > h4, :scope > ol > li")];
+    input.addEventListener("input", () => {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      items.forEach(el => {
+        if (el.tagName === "H4") return;
+        const hit = !q || el.textContent.toLowerCase().includes(q);
+        el.hidden = !hit; if (hit) shown++;
+      });
+      // hide category headings with nothing visible under them
+      items.filter(el => el.tagName === "H4").forEach(h => {
+        let sib = h.nextElementSibling, any = false;
+        while (sib && sib.tagName !== "H4") { if (sib.matches("ul") ? [...sib.children].some(li => !li.hidden) : !sib.hidden) any = true; sib = sib.nextElementSibling; }
+        h.hidden = q && !any;
+      });
+      body.querySelectorAll("ul.sub").forEach(ul => ul.hidden = ![...ul.children].some(li => !li.hidden));
+      count.textContent = q ? `${shown} match${shown === 1 ? "" : "es"}` : "";
+      body.querySelectorAll("mark").forEach(m => m.replaceWith(m.textContent));
+      body.normalize();
+      if (q.length > 1) markText(body, q);
+    });
+  }
+
+  function markText(root, q) {
+    const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement.closest("summary,script,.eyebrow,.pager,.jump,.steps") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+    const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n => {
+      if (!re.test(n.data)) return; re.lastIndex = 0;
+      const frag = document.createDocumentFragment(); let last = 0;
+      n.data.replace(re, (m, idx) => { frag.append(n.data.slice(last, idx)); const mk = document.createElement("mark"); mk.textContent = m; frag.append(mk); last = idx + m.length; });
+      frag.append(n.data.slice(last)); n.replaceWith(frag);
+      // open any folded section that contains a hit
+      const d = frag.parentElement;
+    });
+    root.querySelectorAll("mark").forEach(m => { const d = m.closest("details"); if (d) d.open = true; });
+  }
+
+  // ---------- Routing ----------
+  let pendingHighlight = null;
+  function route() {
+    const h = decodeURIComponent(location.hash.replace(/^#/, ""));
+    closeSide();
+    if (!h || h === "home") { currentPart = null; homeView(); window.scrollTo(0, 0); return; }
+    const hl = pendingHighlight; pendingHighlight = null;
+    if (byId[h]) return partView(byId[h], null, hl);
+    if (subById[h]) return partView(subById[h].part, h, hl);
+    homeView();
+  }
+  function go(id, highlight) {
+    pendingHighlight = highlight || null;
+    if (location.hash === "#" + id) route(); else location.hash = id;
+  }
+  window.addEventListener("hashchange", route);
+
+  // ---------- Search ----------
+  const index = [];
+  parts.forEach(p => {
+    if (p.blocks.length) index.push({ id: p.id, where: (p.num != null ? `Part ${p.num}` : "Reference"), title: p.title, text: blocksText(p.blocks) });
+    p.subs.forEach(s => index.push({ id: s.id, where: (p.num != null ? `Part ${p.num}` : "Reference") + (s.code ? " · " + s.code : ""), title: s.title, text: blocksText(s.blocks) }));
+  });
+  function blocksText(bs) { return bs.map(b => b.html ? strip(b.html) : b.text ? b.text : b.items ? b.items.map(strip).join(" ") : b.rows ? b.rows.map(r => r.map(strip).join(" ")).join(" ") : "").join(" \n "); }
+
+  const q = $("#q"), results = $("#results");
+  let sel = 0, hits = [];
+  function search() {
+    const term = q.value.trim();
+    if (term.length < 2) { results.hidden = true; return; }
+    const t = term.toLowerCase();
+    const code = subByCode[term] || (byId["part-" + term.replace(/^part\s*/i, "")] && /^(part\s*)?\d{1,2}$/i.test(term) ? "part-" + term.replace(/^part\s*/i, "") : null);
+    hits = [];
+    if (code) { const s = subById[code]; const p = byId[code]; hits.push({ id: code, where: s ? `Part ${s.part.num} · ${s.sub.code}` : `Part ${p.num}`, title: s ? s.sub.title : p.title, snip: "Jump straight there", n: 99, direct: true }); }
+    index.forEach(e => {
+      const inTitle = e.title.toLowerCase().includes(t);
+      const lower = e.text.toLowerCase();
+      let n = 0, pos = lower.indexOf(t), first = pos;
+      while (pos !== -1) { n++; pos = lower.indexOf(t, pos + t.length); }
+      if (!n && !inTitle) return;
+      let snip = "";
+      if (first !== -1) {
+        const a = Math.max(0, first - 50), b = Math.min(e.text.length, first + t.length + 70);
+        snip = (a ? "…" : "") + esc(e.text.slice(a, first)) + "<mark>" + esc(e.text.slice(first, first + t.length)) + "</mark>" + esc(e.text.slice(first + t.length, b)) + (b < e.text.length ? "…" : "");
+      }
+      hits.push({ id: e.id, where: e.where, title: e.title, snip, count: n, n: n + (inTitle ? 20 : 0) });
+    });
+    hits.sort((a, b) => b.n - a.n);
+    hits = hits.slice(0, 40); sel = 0;
+    results.innerHTML = hits.length ? hits.map((h, i) => `<button data-i="${i}" class="${i === 0 ? "sel" : ""}"><span class="where">${esc(h.where)}</span> <b>${esc(h.title)}</b>${h.direct ? "" : (h.count ? ` <span class="where" style="color:var(--muted)">· ${h.count} hit${h.count === 1 ? "" : "s"}</span>` : "")}<span class="snip">${h.snip}</span></button>`).join("") : `<div class="none">No matches for “${esc(term)}”. Try a device name (Filter+, Tool, Delay+) or a part number like 14.4.</div>`;
+    results.hidden = false;
+  }
+  function pick(i) {
+    const h = hits[i]; if (!h) return;
+    results.hidden = true; const term = q.value.trim(); q.blur();
+    go(h.id, h.direct ? null : term);
+  }
+  q.addEventListener("input", search);
+  q.addEventListener("focus", search);
+  q.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault(); if (!hits.length) return;
+      sel = (sel + (e.key === "ArrowDown" ? 1 : -1) + hits.length) % hits.length;
+      results.querySelectorAll("button").forEach((b, i) => b.classList.toggle("sel", i === sel));
+      results.querySelectorAll("button")[sel].scrollIntoView({ block: "nearest" });
+    } else if (e.key === "Enter") { e.preventDefault(); pick(sel); }
+    else if (e.key === "Escape") { results.hidden = true; q.blur(); }
+  });
+  results.addEventListener("click", e => { const b = e.target.closest("button[data-i]"); if (b) pick(+b.dataset.i); });
+  document.addEventListener("click", e => { if (!e.target.closest(".search")) results.hidden = true; });
+
+  // ---------- Glossary drawer ----------
+  const gl = byId["glossary"];
+  function renderGloss(term) {
+    const t = (term || "").trim().toLowerCase();
+    let html = "", cat = "";
+    (gl ? gl.blocks : []).forEach(b => {
+      if (b.type === "h4") { cat = b.text; return; }
+      if (b.type !== "p" || !b.indent) return;
+      if (t && !strip(b.html).toLowerCase().includes(t)) return;
+      if (cat) { html += `<div class="gl-cat">${esc(cat)}</div>`; cat = ""; }
+      html += `<div class="gl-item prose">${linkify(b.html)}</div>`;
+    });
+    $("#glList").innerHTML = html || `<p class="section-note">No glossary entry mentions “${esc(term)}”. Try the main search for more.</p>`;
+  }
+  function openGloss() { $("#drawer").hidden = false; $("#scrim").hidden = false; renderGloss($("#glq").value); setTimeout(() => $("#glq").focus(), 0); }
+  function closeGloss() { $("#drawer").hidden = true; if (!$("#side").classList.contains("open")) $("#scrim").hidden = true; }
+  $("#glossBtn").addEventListener("click", openGloss);
+  $("#drawerClose").addEventListener("click", closeGloss);
+  $("#glq").addEventListener("input", e => renderGloss(e.target.value));
+  $("#glList").addEventListener("click", e => { if (e.target.closest("a.xref")) closeGloss(); });
+
+  // ---------- Sidebar (mobile) ----------
+  function closeSide() { $("#side").classList.remove("open"); if ($("#drawer").hidden) $("#scrim").hidden = true; }
+  $("#menuBtn").addEventListener("click", () => { $("#side").classList.add("open"); $("#scrim").hidden = false; });
+  $("#scrim").addEventListener("click", () => { closeSide(); closeGloss(); });
+
+  // ---------- Theme ----------
+  const savedTheme = store.get("theme", null);
+  if (savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
+  $("#themeBtn").addEventListener("click", () => {
+    const cur = document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    const nextT = cur === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", nextT); store.set("theme", nextT);
+  });
+
+  // ---------- Global clicks & keys ----------
+  function toggleDone() {
+    if (!currentPart || currentPart.num == null) return;
+    const id = currentPart.id;
+    done.has(id) ? done.delete(id) : done.add(id); saveDone();
+    const btn = $("#doneBtn");
+    btn.classList.toggle("done", done.has(id)); btn.textContent = done.has(id) ? "✓ Done" : "Mark part done"; btn.setAttribute("aria-pressed", done.has(id));
+    $("#page").replaceChild(renderSteps(currentPart), $("#steps"));
+    renderSide(currentPart, null);
+  }
+  function toggleAll() {
+    const all = [...document.querySelectorAll("details.sub")]; if (!all.length) return;
+    const open = !all.every(d => d.open);
+    all.forEach(d => d.open = open); store.set("openAll", open);
+    const b = $("#toggleAll"); if (b) b.textContent = open ? "Collapse all" : "Expand all";
+  }
+  document.addEventListener("click", e => {
+    const g = e.target.closest("[data-go]");
+    if (g) { e.preventDefault(); go(g.dataset.go); return; }
+    if (e.target.closest("#doneBtn")) toggleDone();
+    if (e.target.closest("#toggleAll")) toggleAll();
+  });
+  // Opening a section from its summary updates the sidebar highlight without a page re-render
+  document.addEventListener("toggle", e => {
+    const d = e.target; if (!(d instanceof HTMLDetailsElement) || !d.open || !currentPart) return;
+    document.querySelectorAll(".nav-subs button").forEach(b => b.classList.toggle("active", b.dataset.go === d.id));
+    store.set("last", d.id);
+  }, true);
+  document.addEventListener("keydown", e => {
+    if (e.target.closest("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === "/") { e.preventDefault(); q.focus(); q.select(); }
+    else if (e.key === "g") { e.preventDefault(); $("#drawer").hidden ? openGloss() : closeGloss(); }
+    else if (e.key === "Escape") { closeGloss(); closeSide(); }
+    else if (e.key === "h") go("home");
+    else if (e.key === "e") toggleAll();
+    else if (e.key === "d") toggleDone();
+    else if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && currentPart) {
+      const pos = order.indexOf(currentPart); const t = order[pos + (e.key === "ArrowRight" ? 1 : -1)];
+      if (t) go(t.id);
+    }
+  });
+
+  route();
+})();
+</script>

@@ -506,7 +506,7 @@
      "items": [
       "<strong>Tempo.</strong> In the transport bar along the top, find the BPM number. Double-click it and type <code>132</code>.",
       "<strong>Shuffle.</strong> Also in the transport area, next to the groove switch. Turn groove on and set shuffle to 15 to 20 percent.",
-      "<strong>Key.</strong> Pick any minor key. A minor and F minor are both common. The first note of the key (A or F) is your <strong>root note</strong>; you'll tune the kick to it in Part 2. Bitwig 6 added a project-wide key signature; set it there if you can find it, but the music works whether or not you do. Part 14.4 lists the low-end frequencies for common roots.",
+      "<strong>Key.</strong> Pick any minor key. A minor and F minor are both common. The first note of the key (A or F) is your <strong>root note</strong>; you'll tune the kick to it in Part 2. Bitwig 6 added a project-wide key signature: set its <strong>Root Note</strong> and <strong>Scale</strong> in the transport. It's optional, but it lets the piano roll snap to the key (press <code>K</code>). Part 14.4 lists the low-end frequencies for common roots.",
       "<strong>Headroom.</strong> Open the Mixer, find the Master track, and set its fader to <strong>-6 dB</strong> (double-click the value and type <code>-6</code>)."
      ]
     },
@@ -567,7 +567,7 @@
        "items": [
         "Right-click in the empty space below your track headers, choose <strong>Add Instrument Track</strong>. Double-click its name and call it KICK.",
         "<strong>Load a kick.</strong> In the Browser, find a kick sample (in Bitwig's library or your own files) and drag it onto the KICK track's Device Panel. Bitwig loads it into a <strong>Sampler</strong>. If a Sampler is already there, drag the sample onto its waveform display instead.",
-        "<strong>One-shot mode.</strong> In the Sampler, find the playback mode chooser and set it to <strong>One-shot</strong>, so the whole sample plays once per note.",
+        "<strong>One-shot mode.</strong> In the Sampler's amplitude envelope section, set the <strong>Envelope Mode</strong> menu to <strong>One-shot</strong> (before 6.1 it reads <strong>Shot</strong>), so the whole sample plays once per note. Leave the Play Mode menu (Repitch, Cycles and so on) on <strong>Repitch</strong>.",
         "Drag <strong>EQ+</strong> onto the track, to the right of Sampler.",
         "In EQ+, set the first band to high-pass (low cut) at <strong>30 Hz</strong>. This removes rumble you can't hear but that eats headroom.",
         "<strong>Tune the kick to your root note.</strong>"
@@ -903,7 +903,7 @@
         "New instrument track named HATS. Drag a <strong>Drum Machine</strong> onto it from the Browser.",
         "Drag a closed hi-hat sample from the Browser onto one of the Drum Machine's pads (or keys). It loads into a Sampler on that pad. Alternatively, skip the Drum Machine and drop the sample straight onto the track, which makes a Sampler.",
         "Double-click an empty clip slot to create a clip, then double-click the clip to open it in the editor at the bottom. Draw a note on every 16th across one bar. (Part 16 offers the other common choice: offbeats only, steps 3, 7, 11, 15.)",
-        "<strong>Vary the velocities from 60 to 110.</strong> Offbeats generally quieter. This matters more than the sample; flat velocities sound like a machine. In the clip editor, look for the expression lanes under the notes and choose <strong>Velocity</strong>, then drag each note's bar up or down. Or select a note and type its velocity in the Inspector.",
+        "<strong>Vary the velocities from 60 to 110.</strong> Offbeats generally quieter. This matters more than the sample; flat velocities sound like a machine. In the clip editor, open the <strong>Note Expression Lane</strong> under the notes (press <code>V</code>) and choose <strong>Velocity</strong>, then drag each note's bar up or down. Or select a note and type its velocity in the Inspector.",
         "EQ+ after it, low cut around 400 Hz."
        ]
       },
@@ -971,7 +971,7 @@
       {
        "type": "p",
        "indent": false,
-       "html": "Check whether individual clips can opt out. You want groove <strong>on</strong> for hats and perc, <strong>off</strong> for the kick. A swung kick is a different genre."
+       "html": "Individual clips can opt out: select a clip and turn off <strong>Shuffle</strong> in the Inspector's Shuffle section. You want groove <strong>on</strong> for hats and perc, <strong>off</strong> for the kick. A swung kick is a different genre."
       }
      ]
     },
@@ -1128,7 +1128,7 @@
       {
        "type": "p",
        "indent": true,
-       "html": "<strong>Remove a routing:</strong> double-click the modulation amount."
+       "html": "<strong>Remove a routing:</strong> right-click the modulator's routing button and click the ✕ beside the target (or choose <strong>Delete</strong> to clear all its routings). Or right-click the target knob and click the ✕ next to the source under <strong>MODULATION ROUTINGS</strong>."
       },
       {
        "type": "p",
@@ -1348,7 +1348,7 @@
        "type": "ol",
        "start": 1,
        "items": [
-        "Remove Drill 3's routing: double-click the modulation amount, or simply delete the second LFO.",
+        "Remove Drill 3's routing: right-click the target knob and click the ✕ under <strong>MODULATION ROUTINGS</strong>, or simply delete the second LFO.",
         "Add a new LFO. Sync off, rate <strong>0.13 Hz</strong>.",
         "Route it to <strong>Cutoff</strong> with a small upward drag."
        ]
@@ -2072,7 +2072,7 @@
        "type": "ol",
        "start": 1,
        "items": [
-        "Right-click Polymer's header and look for an option to wrap it in an <strong>Instrument Layer</strong>. Alternatively, add an Instrument Layer from the Browser and drag Polymer into it.",
+        "Select Polymer and press <code>Ctrl+G</code> (<code>Cmd+G</code> on Mac) to wrap it in an <strong>Instrument Layer</strong>. (Bitwig users report this; it isn't in Bitwig's own docs.) Alternatively, add an Instrument Layer from the Browser and drag Polymer into it.",
         "Inside the Instrument Layer, add a second layer with a new Polymer (or Polysynth) set to a plain <strong>saw</strong> oscillator.",
         "Detune the second layer slightly, a few cents. Its fine tune control will be in the oscillator section.",
         "Balance the two layers' volumes so the wavetable stays dominant."
@@ -2418,7 +2418,7 @@
     {
      "type": "p",
      "indent": false,
-     "html": "<strong>Placing cue markers.</strong> Add a labelled marker at each bar in the table so you can see the structure while working. In the Arrangement, right-click the ruler along the top at the bar you want and look for the option to add a cue marker. Double-click a marker to rename it."
+     "html": "<strong>Placing cue markers.</strong> Add a labelled marker at each bar in the table so you can see the structure while working. First right-click the Beat Ruler along the top of the Arrangement and turn on <strong>Show Cue Markers</strong>. Then right-click the ruler at the bar you want and choose <strong>Insert Cue Marker</strong>. (<strong>Insert Cue Marker Here</strong> can be given a keyboard shortcut in Dashboard &gt; Shortcuts.) Double-click a marker to rename it."
     },
     {
      "type": "table",
@@ -3453,7 +3453,7 @@
       {
        "type": "p",
        "indent": true,
-       "html": "<strong>Vocoder-style spectral devices.</strong> To-Da-Choppa, with its Modulator/Carrier and 80 bands, resynthesizes the sound through narrow bands and produces a hollow, submerged, talking-through-a-pipe quality."
+       "html": "<strong>Vocoder-style spectral devices.</strong> Bitwig's <strong>Vocoder</strong> (the device called To-Da-Choppa during the build, most likely a preset or custom name), with its Modulator/Carrier and 80 bands, resynthesizes the sound through narrow bands and produces a hollow, submerged, talking-through-a-pipe quality."
       },
       {
        "type": "p",
@@ -3759,7 +3759,7 @@
       {
        "type": "p",
        "indent": true,
-       "html": "This is where <strong>To-Da-Choppa</strong> and <strong>Treemonster</strong> shine, because their submerged, talking quality is exactly what you want in a background texture. The \"underwater\" sound that didn't work on Rubby Wubby may be perfect here."
+       "html": "This is where the <strong>Vocoder</strong> and <strong>Treemonster</strong> shine, because their submerged, talking quality is exactly what you want in a background texture. The \"underwater\" sound that didn't work on Rubby Wubby may be perfect here."
       },
       {
        "type": "p",
@@ -3779,7 +3779,7 @@
       {
        "type": "p",
        "indent": true,
-       "html": "Bounce the clip to audio (right-click the clip; look for <strong>Bounce</strong> or <strong>Bounce in Place</strong>), or record the track's output onto a new audio track."
+       "html": "Bounce the clip to audio (right-click the clip and choose a <strong>Bounce In Place</strong> option: Pre-FX, Pre-Fader or Post-Fader), or record the track's output onto a new audio track."
       },
       {
        "type": "p",
@@ -3982,7 +3982,7 @@
        "type": "ol",
        "start": 1,
        "items": [
-        "On SPARE (or a new instrument track named ONE HIT), drop a short click, rim, or perc sample. It loads into <strong>Sampler</strong>. One-shot mode.",
+        "On SPARE (or a new instrument track named ONE HIT), drop a short click, rim, or perc sample. It loads into <strong>Sampler</strong>. Set Envelope Mode to <strong>One-shot</strong>.",
         "<strong>Get notes without drawing them.</strong> The video avoids pencilling notes in, because it breaks flow. Ableton's MIDI generators and audio-to-MIDI have no direct Bitwig match, so use one of these:"
        ]
       },
@@ -4120,7 +4120,7 @@
       {
        "type": "p",
        "indent": false,
-       "html": "The video uses Ableton's Shifter with its built-in delay. In Bitwig: <strong>Delay+</strong>, time <strong>1/8</strong>, Feedback low to moderate, with a <strong>pitch shifter</strong> in its <strong>FB FX</strong> slot shifted <strong>down</strong> a little. Each echo drops in pitch. Same FB FX trick as 12.13. Use <strong>Freq Shifter</strong> at a small amount if there's no native pitch shifter."
+       "html": "The video uses Ableton's Shifter with its built-in delay. In Bitwig: <strong>Delay+</strong>, time <strong>1/8</strong>, Feedback low to moderate, with a <strong>pitch shifter</strong> in its <strong>FB FX</strong> slot shifted <strong>down</strong> a little. Each echo drops in pitch. Same FB FX trick as 12.13. Bitwig's <strong>Pitch Shifter</strong> device does this. <strong>Freq Shifter</strong> at a small amount is an alternative with a more metallic, inharmonic result."
       },
       {
        "type": "p",
@@ -5241,7 +5241,7 @@
         "<strong>Bounce</strong> it to audio. In Setup A, record into a new audio track whose input is the Master, with only KICK and RUMBLE playing.",
         "Record a few bars and pick the hit you like best.",
         "<strong>Trim it:</strong> start exactly on the transient; end just before the next kick (about <strong>455 ms</strong> at 132 BPM).",
-        "Load that one-shot into a <strong>Sampler</strong> in One-shot mode on a new track. Mute or deactivate the original chain, but keep it for later edits."
+        "Load that one-shot into a <strong>Sampler</strong> with Envelope Mode set to One-shot on a new track. Mute or deactivate the original chain, but keep it for later edits."
        ]
       },
       {
@@ -6084,7 +6084,7 @@
       {
        "type": "p",
        "indent": false,
-       "html": "<strong>Open hat choke.</strong> To reproduce the TR-8S behaviour, the open hat has to stop when the closed hat plays. Look for a choke group setting on the Drum Machine pads. If you can't find one, fake it: shorten the open hat Sampler's amp decay so it's gone before the next \"&amp;\". One 8th at 132 BPM is about 227 ms, so start the decay around <strong>150 to 200 ms</strong>."
+       "html": "<strong>Open hat choke.</strong> To reproduce the TR-8S behaviour, the open hat has to stop when the closed hat plays. Drum Machine has choke groups: right-click the open hat's chain and choose <strong>Choked by</strong> &gt; the closed hat's chain (or from the closed hat, <strong>Choke targets</strong> &gt; open hat). If you'd rather keep the hats independent, fake it: shorten the open hat Sampler's amp decay so it's gone before the next \"&amp;\". One 8th at 132 BPM is about 227 ms, so start the decay around <strong>150 to 200 ms</strong>."
       },
       {
        "type": "p",
@@ -6354,7 +6354,31 @@
     {
      "type": "p",
      "indent": false,
-     "html": "Flagging these honestly rather than sending you hunting for names that may not exist. If something doesn't match your screen, the idea is right and the label or location may differ."
+     "html": "<strong>Researched October 2026.</strong> Bitwig hasn't published a version 6 user guide yet, so each answer below was checked against the Bitwig 5.3 user guide, the official 6.0 and 6.1 release notes, and third-party sources only where those two are silent. The guide's main text was updated on 28 October 2026 to match these answers. Type <em>corrected</em>, <em>partly</em> or <em>still open</em> in the filter box to see one group."
+    },
+    {
+     "type": "p",
+     "indent": false,
+     "html": "<strong>Summary:</strong> 43 items: 30 resolved (27 confirmed, 3 that were wrong in the guide and are now corrected), 8 partly answered, 5 still open. For anything unresolved, holding Bitwig's Interactive Help over the control shows its official name."
+    },
+    {
+     "type": "h4",
+     "text": "Corrected in the guide"
+    },
+    {
+     "type": "p",
+     "indent": true,
+     "html": "<span class=\"st fix\">Corrected</span> <strong>Sampler's One-shot is not a playback mode.</strong> Corrected in Part 2. The Play Mode menu holds Repitch, Cycles, Textures, Spectral and Fragments. One-shot is an option of <strong>Envelope Mode</strong>, alongside <strong>Gated</strong>. Before 6.1 the same setting was called <strong>Shot</strong>. <span class=\"src\">Source: Bitwig 6.1 release notes; Bitwig 5.3 user guide 19.24.5</span>"
+    },
+    {
+     "type": "p",
+     "indent": true,
+     "html": "<span class=\"st fix\">Corrected</span> <strong>Removing a modulation routing is a right-click, not a double-click.</strong> Corrected in Part 4. Right-click the modulator's routing button and click the ✕ beside the target (or Delete to clear all). Or right-click the target knob and click ✕ under <strong>MODULATION ROUTINGS</strong>. <span class=\"src\">Source: Bitwig 5.3 user guide 16.2.1</span>"
+    },
+    {
+     "type": "p",
+     "indent": true,
+     "html": "<span class=\"st fix\">Corrected</span> <strong>What To-Da-Choppa is.</strong> It's Bitwig's <strong>Vocoder</strong> (Filter category): Modulator and Carrier chains, 8 to 80 bands, plus Slope, Bandwidth, Formant, Brightness, Attack, Release, Freeze, Ceiling and Floor. No device called To-Da-Choppa exists in Bitwig's documentation or anywhere online, so the name on screen was most likely a preset or a custom device name. 12.2 and 12.10 now say Vocoder. <span class=\"src\">Source: Bitwig 5.3 user guide 19.11.7; web search</span>"
     },
     {
      "type": "h4",
@@ -6363,52 +6387,47 @@
     {
      "type": "p",
      "indent": true,
-     "html": "Where the project-wide key signature is set (Part 1)"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Where the project-wide key signature is set (Part 1).</strong> New in 6.0: <strong>Root Note</strong> and <strong>Scale</strong> in the Transport, 23 scales, with automation lanes at the top of the Arranger. In the piano roll, <code>K</code> turns on Snap to Key. <span class=\"src\">Source: Bitwig 6.0 release notes</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The exact name of Sampler's playback mode chooser and its One-shot option"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Where the velocity lane lives.</strong> The <strong>Note Expression Lane</strong> under the notes (press <code>V</code>). It also shows Chance and Release Velocity. <span class=\"src\">Source: Bitwig 6.0 release notes</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Where the velocity lane lives in the clip editor, versus editing velocity in the Inspector"
+     "html": "<span class=\"st part\">Partly answered</span> <strong>Clip loop length and the 7-sixteenth display.</strong> The clip header in the Detail Editor has a loop bar: double-click turns looping on or off, drag to adjust. The Inspector has a Loop section too. Not yet known: the exact readout format for a 7-sixteenth length. <span class=\"src\">Source: Bitwig 6.0 release notes; Bitwig 5.3 user guide 5.4</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether clip loop length lives in the Inspector or only on the clip editor's loop markers, and the exact display format for a 7-sixteenth length"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>How cue markers are added.</strong> Right-click the Beat Ruler and turn on <strong>Show Cue Markers</strong>, then right-click again and choose <strong>Insert Cue Marker</strong>. <strong>Insert Cue Marker Here</strong> can be given a shortcut in Dashboard &gt; Shortcuts. <span class=\"src\">Source: Bitwig 5.3 user guide 5.5.1</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "How cue markers are added (right-click on the ruler is a guess; there may be a shortcut or a transport button)"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether Ctrl+G / Cmd+G groups selected tracks.</strong> Yes. Ctrl+Shift+G (Cmd+Shift+G) ungroups. In 6.0 the same keys also turn a time selection of automation into an automation clip. <span class=\"src\">Source: Bitwig 5.3 user guide ch. 3; Bitwig 6.0 release notes</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether Ctrl+G / Cmd+G groups selected tracks"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether clips can opt out of global groove.</strong> Yes. Each clip has a <strong>Shuffle</strong> toggle and an <strong>Accent</strong> % in the Inspector's Shuffle section. <span class=\"src\">Source: Bitwig 5.3 user guide 5.4.6</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether individual clips can opt out of global groove"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether the per-note pitch lane reads Pitch or Transpose.</strong> Both: it's labelled <strong>Pitch / Transpose</strong> (press <code>P</code>). <span class=\"src\">Source: Bitwig 6.0 release notes</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether the per-note pitch lane in the note editor reads <strong>Pitch</strong> or <strong>Transpose</strong>"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Drum Machine choke groups (Part 16.7).</strong> Yes. Right-click a chain and use the <strong>Choke targets</strong> or <strong>Choked by</strong> submenu. <span class=\"src\">Source: Bitwig 5.3 user guide 16.1</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether the Drum Machine has choke groups, and where the setting lives (Part 16.7)"
-    },
-    {
-     "type": "p",
-     "indent": true,
-     "html": "Whether global shuffle swings 16ths (the even steps) or can be set to 8ths; Part 16.7 assumes 16ths"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether global shuffle swings 16ths or 8ths (Part 16.7).</strong> Either. The global groove <strong>Rate</strong> is 1/8 or 1/16, and Shuffle delays the even-numbered steps. <span class=\"src\">Source: Bitwig 5.3 user guide 14.3</span>"
     },
     {
      "type": "h4",
@@ -6417,77 +6436,62 @@
     {
      "type": "p",
      "indent": true,
-     "html": "Whether Bitwig's \"pre\" on a sidechain source means pre-fader or pre-device-chain"
+     "html": "<span class=\"st open\">Still open</span> <strong>What \"pre\" means on a sidechain source.</strong> Bitwig's docs don't define it. Third-party write-ups suggest either before the volume fader or before the track's effects. <span class=\"src\">Source: not documented</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether removing a routing by double-clicking its amount still works in version 6 (right-click on the ring is the other place to look)"
+     "html": "<span class=\"st part\">Partly answered</span> <strong>The Steps modulator's controls.</strong> Has step count, direction (forward, backward, ping-pong), polarity and phase. Trigger modes: Transport, with Groove, Free running, Note / Restart, Note / Random. Not yet known: how bars are drawn, and whether 7 can be typed in directly. <span class=\"src\">Source: Bitwig 5.3 user guide 19.28.7.3</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The Steps modulator's exact controls: how bars are drawn, and whether the step count can be set to 7 directly"
+     "html": "<span class=\"st open\">Still open</span> <strong>Reverb's parameter names, especially mix.</strong> The manual only names the EARLY and TANK sections and the Tank FX and Wet FX chains. <span class=\"src\">Source: Bitwig 5.3 user guide 19.20.2</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The exact reverb parameter names, particularly the mix control"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Delay+'s feedback control and \"EQ\" knobs.</strong> The control is <strong>Feedback</strong> (0 to 122%). The feedback tone controls are low-pass and high-pass filters; the manual doesn't call them EQ. Patterns are Mono, Stereo, Ping L and Ping R. <span class=\"src\">Source: Bitwig 5.3 user guide 19.6.1</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The exact names of Delay+'s feedback control and its EQ knobs (the Ping mode and EQ section are visible on the device)"
+     "html": "<span class=\"st part\">Partly answered</span> <strong>The Arpeggiator's mode names.</strong> 17 patterns, plus Octave Behavior modes <strong>Broad</strong>, <strong>Thin</strong> and <strong>1 by 1</strong>. Not yet known: the pattern names, and whether one matches Ableton's \"play order\". <span class=\"src\">Source: Bitwig 5.3 user guide 19.17.1</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The Arpeggiator's mode names, and whether one matches Ableton's \"play order\""
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Phaser+'s Manual Override toggle.</strong> <strong>Manual Override</strong>. It switches off the internal LFOs and exposes a <strong>Mod</strong> knob for your own modulation. <span class=\"src\">Source: Bitwig 5.3 user guide 19.16.5</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The exact on-screen label of Phaser+'s Manual Override toggle"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Polymer's wavetable position knob.</strong> <strong>Index</strong>. A toggle next to it switches interpolation off. <span class=\"src\">Source: MusicTech and Bonedo tutorials (third-party)</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The exact label of Polymer's wavetable position knob (Index is the standard Bitwig name, but check for Position)"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Where Polymer's Glide and mono settings live.</strong> <strong>Glide</strong> is on the device's front panel. Mono is in the Inspector: set <strong>Voices</strong> to 1, then choose <strong>True Mono</strong> or <strong>Digi Mono</strong>, with Retrigger and Steal same key options. <span class=\"src\">Source: Bitwig 5.3 user guide 19.24.3, 16.2.4.1</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Where <strong>Glide</strong> and mono voice settings live for Polymer (Inspector or device)"
+     "html": "<span class=\"st part\">Partly answered</span> <strong>Wrapping a device in an Instrument Layer from the right-click menu.</strong> Forum users report that Ctrl+G (Cmd+G) on selected devices wraps them in an FX Layer or Instrument Layer. Not in Bitwig's docs. <span class=\"src\">Source: KVR forum (community)</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether Bitwig's right-click menu offers wrapping a device in an Instrument Layer directly"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>A native pitch-shift device for 12.13's FB FX slot.</strong> Yes: <strong>Pitch Shifter</strong> (frequency, Grain, Mix). Freq Shifter and Freq Shifter+ also exist. <span class=\"src\">Source: Bitwig 5.3 user guide 19.2.4</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether Bitwig 6 has a native pitch-shift device for 12.13's FB FX slot, and its name (Freq Shifter is the fallback)"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether Delay+ holds forever and stops runaway loops.</strong> <strong>Forever</strong> (snowflake icon) holds the feedback buffer at unity with no new input. <strong>Level Control</strong> (Soft Clip, Hard Clip or Comp., with a Threshold) keeps the loop from exploding. <span class=\"src\">Source: Bitwig 5.3 user guide 19.6.1</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether Delay+'s Feedback reaches a true infinite hold at maximum, and whether its built-in feedback level control keeps a 12.13 loop from running away"
-    },
-    {
-     "type": "p",
-     "indent": true,
-     "html": "Whether Delay+'s Time can be unsynced (in ms) so a Random modulator glides rather than jumps between note values"
-    },
-    {
-     "type": "p",
-     "indent": true,
-     "html": "What To-Da-Choppa is, exactly. From its controls (Modulator, Carrier, band count,"
-    },
-    {
-     "type": "p",
-     "indent": true,
-     "html": "Formant) it behaves like a vocoder; Part 12 treats it that way."
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether Delay+'s Time can be unsynced.</strong> Yes. Time can be set in seconds as well as beats. Time Update Model <strong>Repitch</strong> glides audibly; <strong>Fade</strong> hides the pitch artifacts. <span class=\"src\">Source: Bitwig 5.3 user guide 19.6.1</span>"
     },
     {
      "type": "h4",
@@ -6496,27 +6500,27 @@
     {
      "type": "p",
      "indent": true,
-     "html": "The exact name of the Sampler's 6.1 phase-modulation character and its amount control"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Sampler's 6.1 phase-modulation character.</strong> In <strong>Cycles</strong> mode, choose the <strong>Phase modulation</strong> character. Controls: <strong>Mod</strong> (depth) and <strong>Harm</strong> (modulator tuning). Repitch also gained Clean, Analog and Digital characters. <span class=\"src\">Source: Bitwig 6.1 release notes</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Resonator Bank's per-band controls (pitch in semitones or Hz, gain, Q or decay), and whether its key-track follows notes when placed on an instrument track after Sampler"
+     "html": "<span class=\"st part\">Partly answered</span> <strong>Resonator Bank's per-band controls and key tracking.</strong> Six filters, each with frequency, resonance and gain, plus global morph controls and key tracking that follows incoming notes. Not yet known: whether pitch is in semitones or Hz. <span class=\"src\">Source: Bitwig 5.3 user guide 19.11.5</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether Bitwig has a standalone <strong>Comb</strong> device or only a comb mode inside Filter+ or The Grid"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether there's a standalone Comb device.</strong> Yes: <strong>Comb</strong> (frequency plus bipolar feedback). Comb modules also exist in Filter+, Polymer and The Grid. <span class=\"src\">Source: Bitwig 5.3 user guide 19.11.1</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether Delay+ can be set short enough (a few ms) for the Karplus-Strong body; Delay-1 or an FX Grid delay are fallbacks"
+     "html": "<span class=\"st open\">Still open</span> <strong>Whether Delay+ goes short enough for Karplus-Strong.</strong> The shortest delay time isn't documented. Delay-1 and an FX Grid delay remain the fallbacks. <span class=\"src\">Source: not documented</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Where <strong>Loud Split</strong> lives and how its bands are labelled"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Where Loud Split lives and how its bands are labelled.</strong> Spectral category. Like all Bitwig's Spectral devices it works on hundreds of frequency bands, sorting each by level into <strong>Quiet</strong> (green), <strong>Mid</strong> (yellow) and <strong>Loud</strong> (red) channels, set by a <strong>Higher Threshold</strong> and a <strong>Lower Threshold</strong> with a <strong>Knee</strong> each. So 12.14's use, turning down only the loudest parts of the spectrum, is right. <span class=\"src\">Source: Bitwig 5.3 user guide 19.23, 19.23.3</span>"
     },
     {
      "type": "h4",
@@ -6525,27 +6529,27 @@
     {
      "type": "p",
      "indent": true,
-     "html": "Whether an <strong>ADSR</strong> on an effect after the Sampler fires on the track's notes (Setup B's ducking)"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether an ADSR on an effect after Sampler fires on the track's notes.</strong> Yes. Instruments and audio effects pass the notes they receive on to later devices and modulators, so Setup B works as written. <span class=\"src\">Source: Bitwig 5.3 user guide 13.3 note on hybrid tracks</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether a <strong>Chain</strong> container accepts an instrument like Sampler (Setup B falls back to an Instrument Layer)"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether a Chain container accepts Sampler.</strong> No. Chain is audio in, audio out. Instrument Layer (notes in, audio out) is the right container, as the guide's fallback already says. <span class=\"src\">Source: Bitwig 5.3 user guide 19.4.1, 19.4.4</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The <strong>Amp</strong> device's model names, and whether any match Ableton's Bass, Blues, or Boost"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Amp's model names.</strong> Bitwig's own names, such as <strong>Class AB</strong>, <strong>Eulic</strong> and <strong>Fold B</strong>. None match Ableton's Bass, Blues or Boost. <span class=\"src\">Source: Bitwig 5.3 user guide 19.7.1</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether <strong>Delay-2</strong> has independent left and right times"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether Delay-2 has independent left and right times.</strong> Yes: separate time, offset and feedback per side, plus Detune, Rate and Crossfeed. <span class=\"src\">Source: Bitwig 5.3 user guide 19.6.3</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The Grid's exact module names for wavefolding, multiply (AM), and phase or FM inputs"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>The Grid's module names for wavefolding, AM and phase/FM.</strong> <strong>Wavefolder</strong> (Shaper), <strong>AM/RM</strong> (Level) or <strong>Multiply</strong> (Math). Phase-1 and Pitch Shift have phase/FM inputs; the 6.1 Sampler module adds a Repitch Phase In port. <span class=\"src\">Source: Bitwig 5.3 user guide 19.29; Bitwig 6.1 release notes</span>"
     },
     {
      "type": "h4",
@@ -6554,12 +6558,12 @@
     {
      "type": "p",
      "indent": true,
-     "html": "The TR-8S instrument names in 16.4 are read from small, blurry display text in screenshots"
+     "html": "<span class=\"st open\">Still open</span> <strong>The TR-8S instrument names in 16.4.</strong> These come from blurry screenshots; only the original reels can settle them. <span class=\"src\">Source: n/a</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "How the TR-8S handles a closed and open hat on the same step (Pattern 3, step 15)"
+     "html": "<span class=\"st part\">Partly answered</span> <strong>Closed and open hat on the same step (Pattern 3, step 15).</strong> User reports agree the closed hat wins and chokes the open hat. On the TR-8S choke is set per instrument, so it can vary by kit. <span class=\"src\">Source: MusicRadar, Roland Clan forum</span>"
     },
     {
      "type": "h4",
@@ -6568,22 +6572,22 @@
     {
      "type": "p",
      "indent": true,
-     "html": "The exact names and locations of the note operators (Chance, Repeat, Occurrence, Recurrence) in version 6"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Note operator names in version 6.</strong> <strong>Chance</strong>, <strong>Repeats</strong> (plural), <strong>Occurrence</strong> and <strong>Recurrence</strong>, in the Inspector's Operators section when notes are selected. <span class=\"src\">Source: Bitwig 5.3 user guide ch. 12</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "How Remote Controls pages and MIDI mapping mode are reached"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Reaching Remote Controls and MIDI mapping.</strong> Remote Controls is a button in each device header (an icon of six controls). To map, right-click a knob and choose <strong>Learn Controller Assignment…</strong>. The <strong>Mappings Browser</strong> panel lists and edits all mappings. <span class=\"src\">Source: Bitwig 5.3 user guide 15.1.1, 15.3, 15.4</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The exact steps for recording a Clip Launcher performance into the Arrangement, and for writing automation live"
+     "html": "<span class=\"st part\">Partly answered</span> <strong>Recording a Launcher performance and automation into the Arranger.</strong> The record-to-Arranger options are in the <strong>Play menu</strong>, Clip Launcher section. In 6.0, recording Launcher clips also writes automation by default. Not yet known: the exact click-by-click steps. <span class=\"src\">Source: Bitwig 6.0 release notes</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether <strong>Bounce in Place</strong> sits in the clip's right-click menu under that name"
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Whether Bounce in Place is in the clip's right-click menu.</strong> Yes. Since 5.x it comes in <strong>Pre-FX</strong>, <strong>Pre-Fader</strong> and <strong>Post-Fader</strong> versions, and in 6.0 it works on group tracks' meta clips too. <span class=\"src\">Source: Bitwig 5.3 user guide 13.2; Bitwig 6.0 release notes</span>"
     },
     {
      "type": "h4",
@@ -6592,27 +6596,40 @@
     {
      "type": "p",
      "indent": true,
-     "html": "The Peak Limiter's exact parameter names. The user guide says only \"peak level, gain, and release controls\"; Ceiling is the name used in Bitwig's own training material. Whether it does true-peak detection is undocumented, so Part 11 assumes it does not."
+     "html": "<span class=\"st part\">Partly answered</span> <strong>The Peak Limiter's parameter names and true-peak detection.</strong> <strong>Input Gain</strong>, <strong>Ceiling</strong> and <strong>Release</strong>. Nothing anywhere mentions true-peak detection, so Part 11's assumption that it has none still stands. <span class=\"src\">Source: Polarity's Peak Limiter guide (third-party); Bitwig 5.3 user guide 19.9.6</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "The exact on-screen label of Over's Delta mode toggle"
+     "html": "<span class=\"st open\">Still open</span> <strong>The label of Over's Delta toggle.</strong> Delta mode exists (Threshold becomes the level above which you hear signal), but the toggle's on-screen label isn't documented. <span class=\"src\">Source: Bitwig 5.3 user guide 19.7.4</span>"
     },
     {
      "type": "p",
      "indent": true,
-     "html": "Whether Tilt or EQ+ shelves is the better tool for broad master-bus tone in practice. Both will work; this is taste, not fact."
+     "html": "<span class=\"st ok\">Confirmed</span> <strong>Tilt or EQ+ shelves for master-bus tone.</strong> Still a matter of taste, as the guide says. <span class=\"src\">Source: n/a</span>"
+    },
+    {
+     "type": "h4",
+     "text": "Already resolved during the build"
     },
     {
      "type": "p",
      "indent": false,
-     "html": "<strong>Resolved during the build:</strong> Compressor+'s Character chooser does exist, but displays its current value (Vanilla by default) rather than a \"Character\" label. Treemonster's controls (Threshold, detector low-pass and high-pass, Pitch, Speed, Ring, Mix) match Bitwig's user guide and the on-screen device. Delay+ has a Ping mode and an EQ section, visible on the device during the Rubby Wubby build."
+     "html": "Compressor+'s Character chooser does exist, but displays its current value (Vanilla by default) rather than a \"Character\" label. Treemonster's controls (Threshold, detector low-pass and high-pass, Pitch, Speed, Ring, Mix) match Bitwig's user guide and the on-screen device. Delay+ has a Ping mode and an EQ section, visible on the device during the Rubby Wubby build."
     },
     {
      "type": "p",
      "indent": false,
      "html": "Everything else in this guide was verified during the build, and Part 11's device descriptions came from Bitwig's published user guide."
+    },
+    {
+     "type": "h4",
+     "text": "Sources"
+    },
+    {
+     "type": "p",
+     "indent": false,
+     "html": "Bitwig Studio User Guide 5.3 (bitwig.com/userguide, PDF, February 2025). Bitwig 6.0 and 6.1 release notes (downloads.bitwig.com/6.0/Release-Notes-6.0.html, downloads.bitwig.com/6.1/Release-Notes-6.1.html). Third-party: Polarity's Peak Limiter guide (polarity.me), MusicTech and Bonedo Polymer tutorials, KVR Bitwig forum, MusicRadar's TR-8S guide, Roland Clan forum."
     }
    ],
    "subs": []
@@ -6691,6 +6708,11 @@
   {
    "title": "Change log",
    "blocks": [
+    {
+     "type": "p",
+     "indent": true,
+     "html": "<strong>October 2026, Bitwig 6 label research:</strong> checked all 43 uncertain labels against the Bitwig 5.3 user guide and the 6.0 and 6.1 release notes, and rewrote that list with a status and source for each. Corrected three errors: Sampler's One-shot is an Envelope Mode, not a playback mode (Part 2, 12.14, 14.7); removing a modulation routing is a right-click, not a double-click (Part 4); To-Da-Choppa is Bitwig's Vocoder (12.2, 12.10). Firmed up Part 1 (key signature), Part 3 (velocity lane, clip groove opt-out), Part 7 (Instrument Layer wrap), Part 8 (cue markers), 12.11 (Bounce In Place), 12.14 (Pitch Shifter) and 16.7 (Drum Machine choke groups)."
+    },
     {
      "type": "p",
      "indent": true,

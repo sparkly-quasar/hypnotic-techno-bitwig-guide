@@ -11,21 +11,6 @@ import os
 root = os.getcwd()
 with open(os.path.join(root, "content.json")) as f:
     data = json.load(f)
-# Sections in overrides/ replace the PDF-extracted section with the same title,
-# so research added after the PDF survives re-running extract.py.
-overrides_dir = os.path.join(root, "overrides")
-if os.path.isdir(overrides_dir):
-    for name in sorted(os.listdir(overrides_dir)):
-        if not name.endswith(".json"):
-            continue
-        with open(os.path.join(overrides_dir, name)) as f:
-            override = json.load(f)
-        matches = [p for p in data["parts"] if p["title"] == override["title"]]
-        if not matches:
-            raise SystemExit(f"overrides/{name}: no section titled {override['title']!r} in content.json")
-        matches[0]["blocks"] = override["blocks"]
-        matches[0]["subs"] = override.get("subs", [])
-
 with open(os.path.join(root, "src", "template.html")) as f:
     template = f.read()
 

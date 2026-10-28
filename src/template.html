@@ -157,6 +157,12 @@ h1 { font-family: var(--font-display); font-stretch: 78%; font-weight: 800; font
 .prose ul.sub li { margin-bottom: 6px; }
 .prose ul.sub li::marker { color: var(--muted); }
 .prose h4 { font-family: var(--font-display); font-stretch: 90%; font-size: 18px; margin: 22px 0 8px; }
+.st { display: inline-block; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 1px 7px; border-radius: 99px; margin-right: 4px; border: 1px solid currentColor; vertical-align: 1px; white-space: nowrap; }
+.st.ok { color: var(--check); background: var(--check-soft); }
+.st.part { color: var(--mod); background: var(--mod-soft); }
+.st.open { color: var(--muted); background: var(--panel-2); }
+.st.fix { color: var(--accent); background: var(--accent-soft); }
+.src { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
 .prose code { font-family: var(--font-mono); font-size: .86em; background: var(--panel-2); padding: 1px 5px; border-radius: 4px; }
 .prose pre { font-family: var(--font-mono); font-size: 13px; line-height: 1.5; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; overflow-x: auto; margin: 0 0 16px; }
 .prose a.xref { color: var(--mod); text-decoration: none; border-bottom: 1px dotted var(--mod); font-weight: 700; }
@@ -435,7 +441,7 @@ h2.section { font-family: var(--font-display); font-stretch: 78%; font-size: 26p
     document.title = "Hypnotic Techno Navigator";
   }
   function refBlurb(p) {
-    return { "glossary": "Plain-language definitions, filterable", "troubleshooting": "Things that went wrong, and why", "uncertain-labels": "Bitwig 6 labels to double-check", "sources": "Tutorials, reels and manuals", "change-log": "What changed in each revision" }[p.id] || "";
+    return { "glossary": "Plain-language definitions, filterable", "troubleshooting": "Things that went wrong, and why", "uncertain-labels": "Bitwig 6 labels, researched Oct 2026", "sources": "Tutorials, reels and manuals", "change-log": "What changed in each revision" }[p.id] || "";
   }
 
   let currentPart = null;

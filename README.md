@@ -25,4 +25,6 @@ python3 tools/extract.py path/to/hypnotic-techno-bitwig-guide.pdf content.json
 python3 tools/build.py
 ```
 
+Research added after the PDF lives in `overrides/` (currently the Bitwig 6 labels section). `build.py` swaps each override in for the PDF section with the same title, so it survives a re-extract. If the PDF's own version of that section changes, update the override to match.
+
 `extract.py` reads headings, bold, code and tables from the PDF's fonts and layout, so new parts and sections appear automatically as long as the PDF keeps the same styles. `build.py` inlines the content into `src/template.html` and writes `index.html` (standalone) and `dist/artifact.html`.

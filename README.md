@@ -2,7 +2,9 @@
 
 An interactive way to move through the *Hypnotic Techno Template: Bitwig Build Guide* without scrolling the whole PDF.
 
-Open `index.html` in a browser (no server needed), or turn on GitHub Pages for this repo.
+**Live site:** https://sparkly-quasar.github.io/hypnotic-techno-bitwig-guide/
+
+Or open `index.html` in a browser (no server needed).
 
 ## What it does
 
